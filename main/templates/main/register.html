@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<link rel="stylesheet" href="{% static 'css/main.css' %}" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация на сайте</title>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Регистрация на сайте</h2>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="form-group">
+                <input type="submit" value="Регистрация">
+            </div>
+        </form>
+    </div>
+</body>
+</html>

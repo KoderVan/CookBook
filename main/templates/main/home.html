@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<link rel="stylesheet" href="{% static 'css/main.css' %}" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form method="get">
+        <div>
+            {% if request.user.is_authenticated %}
+                Привет {{ request.user }}
+            {% else %}
+                Привет
+            {% endif %}
+        </div>
+        <div>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="header a">Выйти</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="header a">Войти</a>
+                <p><a href="{% url 'register' %}" class="header a">Зарегистрироваться</a></p>
+            {% endif %}
+        </div>
+        <div>
+            <a href="{% url 'recipe-list' %}">Рецепты</a>
+        </div>
+    </form>
+</body>
+</html>

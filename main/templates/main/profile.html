@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form method="post">
+        {% block content %}
+
+        <div class="header-bar">
+            <h1>Profile</h1>
+
+        </div>
+
+        <div class="card-body">
+          <p><strong>Username:</strong> {{ page_user }}</p><br><br>
+          <p><strong>Bio:</strong> {{ profile.bio }}</p><br><br>
+        </div>
+        {% endblock content %}
+    </form>
+</body>
+</html>

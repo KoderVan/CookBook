@@ -1,0 +1,53 @@
+<?php
+include "table.php";
+$result = mysqli_query($induction, "SELECT * FROM 'recipemodel'");
+$table = mysqli_fetch_assoc($result);
+print_r($table)
+?>
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<link rel="stylesheet" href="{% static 'css/main.css' %}" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        {% if request.user.is_authenticated %}
+            Привет {{ request.user }}
+        {% else %}
+            Привет
+        {% endif %}
+    </div>
+    <div>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'logout' %}" class="header a">Выйти</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="header a">Войти</a>
+        {% endif %}
+    </div>
+    <div>
+        <a href="{% url 'home' %}">Назад</a>
+    </div>
+    <div>
+        <a href="{% url 'create' %}">Добавить рецепт</a>
+    </div>
+    <form method="get">
+        <input type="text" value="" name="search-area" placeholder="Поиск...">
+        <input type="submit" value="Поиск">
+    </form>
+    <table>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        {% for recipe in recipelist %}
+        <tr>
+            <td><a href="{% url 'recipe' recipe.id %}">{{ recipe.title }}</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
