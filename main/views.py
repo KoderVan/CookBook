@@ -7,7 +7,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.contrib.auth import logout, login
 from django.contrib.auth.models import User
-from .models import RecipeModel, Profile, Ingredients
+from .models import RecipeModel, Profile, RecipeIngredients, Ingredient
 from django.db import models
 
 
@@ -63,6 +63,12 @@ class RecipeView(DetailView):
     fields = ['title', 'description', 'tags']
     template_name = 'main/recipe.html'
 
+    def get_context_data(self, *args,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['recipe_id'] = RecipeIngredients.objects.filter(recipe_id=self.object) 
+        context['ingredients'] = context['recipe_id']
+        return context       
+
 
 class CreateRecipe(CreateView):
     model = RecipeModel
@@ -77,15 +83,19 @@ class CreateRecipe(CreateView):
 
 
 class AddIngredient(CreateView):
-    model = Ingredients
+    model = RecipeIngredients
     context_object_name = 'new-ingredient'
-    fields = ['ingredient']
+    fields = ['ingredient', 'count','units']
     template_name = 'main/new-ingredient.html'
     success_url = reverse_lazy('recipe-list')
-
-    # def form_valid(self, form):
-    #     form.instance.recipe_id = self.request.recipe_id
-    #     return super(AddIngredient, self).form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['recipe'] = self.request.GET.get('id')
+        return context
+    
+    def form_valid(self, form):
+        return super(AddIngredient, self).form_valid(form)
 
 
 class ProfileView(DetailView):

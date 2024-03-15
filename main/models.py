@@ -23,9 +23,21 @@ class Profile(models.Model):
         return self.user
 
 
-class Ingredients(models.Model):
-    ingredient = models.CharField(max_length=200, blank=True)
-    recipe = models.ManyToManyField(RecipeModel)
+class Ingredient(models.Model):
+    name = models.CharField(max_length=100)
+    
+    class Meta:
+        verbose_name_plural = 'ingredients'
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class RecipeIngredients(models.Model):
+    recipe = models.ForeignKey(RecipeModel, on_delete=models.CASCADE)
+    ingredient = models.CharField(max_length=100)
+    count = models.FloatField(default=1.0)
+    units = models.CharField(max_length=8)
 
     def __str__(self) -> str:
         return f"{self.ingredient}"
